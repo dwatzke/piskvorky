@@ -10,17 +10,17 @@ TODO:
 	* maybe add a timer
 	* highlight 5 cells in a row
 **/
-Board::Board(QWidget* parent) : QWidget(parent), padding(3), size(20), turn(Red), gameover(false)
+Board::Board(int cb, QWidget* parent) : QWidget(parent), m_padding(3), m_size(20), m_cube(cb), turn(Red), gameover(false)
 {
 	setPalette(QPalette(QColor(255, 255, 255)));
 	setAutoFillBackground(true);
-	setFixedSize(psize()*10+padding, psize()*10+padding);
+	setFixedSize(psize()*m_cube+m_padding, psize()*m_cube+m_padding);
 
 	updateStatus(NULL);
 
-	for(int x = padding; x+size < height(); x += psize())
-	for(int y = padding; y+size < width(); y += psize())
-		rects << qMakePair<QRect,Owner>(QRect(x, y, size, size), Nobody);
+	for(int x = m_padding; x+m_size < height(); x += psize())
+	for(int y = m_padding; y+m_size < width(); y += psize())
+		rects << qMakePair<QRect,Owner>(QRect(x, y, m_size, m_size), Nobody);
 }
 
 void Board::paintEvent(QPaintEvent*)
@@ -50,9 +50,9 @@ void Board::paintEvent(QPaintEvent*)
 		case Blue:
 			painter.setPen(Qt::blue);
 			painter.drawLine(rects[i].first.x(), rects[i].first.y(),
-					 rects[i].first.x()+size, rects[i].first.y()+size);
-			painter.drawLine(rects[i].first.x(), rects[i].first.y()+size,
-					 rects[i].first.x()+size, rects[i].first.y());
+					 rects[i].first.x()+m_size, rects[i].first.y()+m_size);
+			painter.drawLine(rects[i].first.x(), rects[i].first.y()+m_size,
+					 rects[i].first.x()+m_size, rects[i].first.y());
 			break;
 		default:
 			break;
@@ -112,9 +112,9 @@ bool Board::checkGameOver()
 	int i=0 /*index*/, t=-1, r=0, b=0, n=0;
 
 	// check vertically
-	for(int x=0; x<100; x++, i++)
+	for(int x=0; x<cube(); x++, i++)
 	{
-		if(x%10 == 0)
+		if(x%m_cube == 0)
 			r=0, b=0;
 
 		if(gameOverSwitch(&rects[i].second, r, b))
@@ -123,13 +123,13 @@ bool Board::checkGameOver()
 
 	// check horizontally
 	if(!gameover)
-        for(int x=0; x<100; x++)
+	for(int x=0; x<cube(); x++)
 	{
-		n = x % 10;
+		n = x % m_cube;
 		if(n == 0)
 			r=0, b=0, t++;
 
-		i = t + n*10; // y*10+x;
+		i = t + n*m_cube; // y*10+x;
 
 		if(gameOverSwitch(&rects[i].second, r, b))
 			return true;
@@ -139,11 +139,11 @@ bool Board::checkGameOver()
 
         // check main diagonal
 	if(!gameover)
-	for(int x=4; x<60;)
+	for(int x=4; x<cube();)
 	{
-		if(x>=10)
+		if(x>=m_cube)
 		{
-			x += 10;
+			x += m_cube;
 			i = x-1;
 			t--;
 		} else
@@ -152,7 +152,7 @@ bool Board::checkGameOver()
 			t = ++x;
 		}
 
-		for(int c=t; c>0; c--, i += 9)
+		for(int c=t; c>0; c--, i += m_cube-1)
 			if(gameOverSwitch(&rects[i].second, r, b))
 				return true;
 	}
@@ -161,11 +161,11 @@ bool Board::checkGameOver()
 
         // check minor diagonal
 	if(!gameover)
-	for(int x=5; x<60;)
+	for(int x=m_cube-5; x<cube();)
 	{
-		if(x<0 || x>5)
+		if(x<0 || x>m_cube-5)
 		{
-			x += 10;
+			x += m_cube;
 			i = x+1;
 			t--;
 		} else
@@ -174,7 +174,7 @@ bool Board::checkGameOver()
 			t++;
 		}
 
-		for(int c=t; c>0; c--, i += 11)
+		for(int c=t; c>0; c--, i += m_cube+1)
 			if(gameOverSwitch(&rects[i].second, r, b))
 				return true;
 	}
@@ -208,4 +208,9 @@ bool Board::gameOverSwitch(Owner* owner, int& r, int& b)
 	}
 
 	return gameover;
+}
+
+int Board::cube() const
+{
+	return m_cube*m_cube;
 }

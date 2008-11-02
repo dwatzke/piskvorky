@@ -4,6 +4,7 @@
 #include "board.h"
 #include <QWidget>
 class QLabel;
+class QSpinBox;
 class QVBoxLayout;
 
 class MainWidget : public QWidget
@@ -16,6 +17,7 @@ private slots:
 	void newGame();
 private:
 	Board* board;
+	QSpinBox* cubeSize;
 	QVBoxLayout* layout;
 };
 

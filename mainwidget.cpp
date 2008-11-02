@@ -4,18 +4,22 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QVBoxLayout>
 
 MainWidget::MainWidget(QWidget*) : board(NULL)
 {
 	QPushButton* newgame = new QPushButton("&New game");
 	connect(newgame, SIGNAL(clicked()), this, SLOT(newGame()));
-	QPushButton* quit = new QPushButton("&Quit");
-	connect(quit, SIGNAL(clicked()), this, SLOT(close()));
+	QLabel* cubeLabel = new QLabel("Board size:");
+	cubeSize = new QSpinBox;
+	cubeSize->setRange(5, 30);
+	cubeSize->setValue(15);
 
 	QHBoxLayout* buttons = new QHBoxLayout;
 	buttons->addWidget(newgame, 1);
-	buttons->addWidget(quit);
+	buttons->addWidget(cubeLabel);
+	buttons->addWidget(cubeSize);
 
 	status = new QLabel;
 
@@ -35,6 +39,10 @@ void MainWidget::newGame()
 		delete board;
 	}
 
-	board = new Board(this);
+	board = new Board(cubeSize->value(), this);
+	board->hide();
+	board->show();
 	layout->addWidget(board);
+
+	resize(sizeHint());
 }

@@ -11,20 +11,22 @@ class QMouseEvent;
 class Board : public QWidget
 {
 public:
-	Board(QWidget* parent = 0);
+	Board(int cb, QWidget* parent = 0);
 protected:
 	void mousePressEvent(QMouseEvent* event);
 	void paintEvent(QPaintEvent* event);
 private:
 	enum Owner { Nobody, Blue, Red };
 
-	int padding;
-	int size;
+	int m_padding;
+	int m_size;
+	int m_cube;
 	Owner turn;
 	bool gameover;
 	QList< QPair<QRect,Owner> > rects;
 
-	int psize() { return padding+size; }
+	int psize() { return m_padding+m_size; }
+	int cube() const;
 	void updateStatus(QString status = NULL);
 	bool checkGameOver();
 	bool gameOverSwitch(Owner* owner, int& r, int& b);
