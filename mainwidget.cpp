@@ -38,7 +38,6 @@ MainWidget::~MainWidget()
 		delete child;
 	while((child = layout->takeAt(0)) != 0)
 		delete child;
-	layout->setEnabled(false);
 	delete layout;
 }
 

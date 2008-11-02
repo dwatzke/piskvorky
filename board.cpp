@@ -139,7 +139,7 @@ bool Board::checkGameOver()
 
         // check main diagonal
 	if(!gameover)
-	for(int x=4; x<cube();)
+	for(int x=4; x<=(cube()-5*m_cube);)
 	{
 		if(x>=m_cube)
 		{
@@ -161,7 +161,7 @@ bool Board::checkGameOver()
 
         // check minor diagonal
 	if(!gameover)
-	for(int x=m_cube-5; x<cube();)
+	for(int x = m_cube-5; x <= cube()-5*m_cube;)
 	{
 		if(x<0 || x>m_cube-5)
 		{
