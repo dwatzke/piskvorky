@@ -13,22 +13,33 @@ MainWidget::MainWidget(QWidget*) : board(NULL)
 	connect(newgame, SIGNAL(clicked()), this, SLOT(newGame()));
 	QLabel* cubeLabel = new QLabel("Board size:");
 	cubeSize = new QSpinBox;
-	cubeSize->setRange(5, 30);
+	cubeSize->setRange(5, 50);
 	cubeSize->setValue(15);
 
-	QHBoxLayout* buttons = new QHBoxLayout;
-	buttons->addWidget(newgame, 1);
-	buttons->addWidget(cubeLabel);
-	buttons->addWidget(cubeSize);
+	cubeSettingsLayout = new QHBoxLayout;
+	cubeSettingsLayout->addWidget(cubeLabel);
+	cubeSettingsLayout->addWidget(cubeSize);
 
 	status = new QLabel;
 
 	layout = new QVBoxLayout;
-	layout->addLayout(buttons);
+	layout->addWidget(newgame, 1);
+	layout->addLayout(cubeSettingsLayout);
 	layout->addWidget(status);
 	newGame();
 
 	setLayout(layout);
+}
+
+MainWidget::~MainWidget()
+{
+	QLayoutItem *child;
+	while((child = cubeSettingsLayout->takeAt(0)) != 0)
+		delete child;
+	while((child = layout->takeAt(0)) != 0)
+		delete child;
+	layout->setEnabled(false);
+	delete layout;
 }
 
 void MainWidget::newGame()
