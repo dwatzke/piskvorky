@@ -9,36 +9,27 @@
 
 MainWidget::MainWidget(QWidget*) : board(NULL)
 {
-	QPushButton* newgame = new QPushButton("&New game");
-	connect(newgame, SIGNAL(clicked()), this, SLOT(newGame()));
-	QLabel* cubeLabel = new QLabel("Board size:");
-	cubeSize = new QSpinBox;
-	cubeSize->setRange(5, 50);
-	cubeSize->setValue(15);
-
+	layout = new QVBoxLayout(this);
 	cubeSettingsLayout = new QHBoxLayout;
+
+	QPushButton* newgame = new QPushButton(tr("&New game"));
+	QLabel* cubeLabel = new QLabel(tr("Board size:"));
+	cubeSize = new QSpinBox;
+	cubeSize->setRange(6, 50);
+	cubeSize->setValue(15);
+	connect(newgame, SIGNAL(clicked()), this, SLOT(newGame()));
+
 	cubeSettingsLayout->addWidget(cubeLabel);
 	cubeSettingsLayout->addWidget(cubeSize);
 
 	status = new QLabel;
 
-	layout = new QVBoxLayout;
 	layout->addWidget(newgame, 1);
 	layout->addLayout(cubeSettingsLayout);
 	layout->addWidget(status);
 	newGame();
 
 	setLayout(layout);
-}
-
-MainWidget::~MainWidget()
-{
-	QLayoutItem *child;
-	while((child = cubeSettingsLayout->takeAt(0)) != 0)
-		delete child;
-	while((child = layout->takeAt(0)) != 0)
-		delete child;
-	delete layout;
 }
 
 void MainWidget::newGame()

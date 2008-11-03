@@ -92,15 +92,15 @@ void Board::updateStatus(QString status)
 {
 	MainWidget* mw = static_cast<MainWidget*>(parentWidget());
 
-	QString l_status = "Status: <font color='";
+	QString l_status = tr("Status:") + " <font color='";
 	if(turn == Red)
-		l_status += "red'>Red";
+		l_status += "red'>" + tr("Red");
 	else
-		l_status += "blue'>Blue";
+		l_status += "blue'>" + tr("Blue");
 	l_status += "</font>";
 
 	if(status == NULL)
-		l_status += "'s turn...";
+		l_status += tr("'s turn...");
 	else
 		l_status += status;
 
@@ -139,7 +139,7 @@ bool Board::checkGameOver()
 
         // check main diagonal
 	if(!gameover)
-	for(int x=4; x<=(cube()-5*m_cube);)
+	for(int x = 4; x <= cube()-5*m_cube;)
 	{
 		if(x>=m_cube)
 		{
@@ -204,7 +204,7 @@ bool Board::gameOverSwitch(Owner* owner, int& r, int& b)
 	if(gameover)
 	{
 		turn = *owner;
-		updateStatus(QString(" wins."));
+		updateStatus(tr(" wins."));
 	}
 
 	return gameover;
