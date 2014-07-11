@@ -1,2 +1,6 @@
-to build this, run: qmake && make
-it depends on Qt >=4.4
+to build this, run:
+	qmake # or qmake-qt4 or qmake-qt5
+	make
+after that, you can run it with: ./piskvorky
+
+it depends on Qt >=4.4 (and supports Qt 5.x)
