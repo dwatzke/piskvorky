@@ -104,7 +104,7 @@ void Board::updateStatus(QString status)
 	else
 		l_status += status;
 
-	mw->status->setText(l_status);
+	mw->setStatus(l_status);
 }
 
 bool Board::checkGameOver()

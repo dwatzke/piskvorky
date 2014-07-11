@@ -3,7 +3,8 @@
 
 #include "board.h"
 #include <QWidget>
-class QHBoxLayout;
+//class QHBoxLayout;
+class QComboBox;
 class QLabel;
 class QSpinBox;
 class QVBoxLayout;
@@ -13,13 +14,14 @@ class MainWidget : public QWidget
 	Q_OBJECT
 public:
 	MainWidget(QWidget* parent = 0);
-	QLabel* status;
+	void setStatus(QString);
 private slots:
 	void newGame();
 private:
 	Board* board;
+	QLabel* status;
 	QSpinBox* cubeSize;
-	QHBoxLayout* cubeSettingsLayout;
+	//QHBoxLayout* cubeSettingsLayout;
 	QVBoxLayout* layout;
 };
 
