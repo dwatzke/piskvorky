@@ -1,0 +1,7 @@
+*.o
+*.qm
+moc_*
+Makefile*
+ui_*.h
+piskvorky
+piskvorky.pro.user*
